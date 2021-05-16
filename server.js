@@ -53,6 +53,33 @@ app.post('/register',(req,res)=>{
     res.json(database.users[database.users.length-1])
 })
 
+app.get('/profile/:id', (req,res)=>{
+    const {id} = req.params;
+    let check=true;
+    database.users.forEach(user=>{
+        if(user.id=== id){
+           check=!check;
+            return res.json(user);
+        }
+    })
+    if(check){
+    res.status(400).json('user not found');}
+})
+
+app.post('/image', (req,res)=>{
+    const {id} = req.body;
+    let check=true;
+    database.users.forEach(user=>{
+        if(user.id=== id){
+            check=!check;
+            user.entries++;
+            return res.json(user.entries);
+        }
+    })
+    if(check){
+    res.status(400).json('user not found');}
+})
+
 app.listen(3000,()=>{
-    console.log('app running on port 3000....');
+    console.log('app running on port 3000....')
 })   
